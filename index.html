@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CareerLift - Job Portal & Prep Hub</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Google Fonts & Font Awesome Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <!-- Header / Navigation -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <span>Career<strong>Lift</strong></span>
+      </div>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <nav class="nav-menu" id="navMenu">
+        <a href="#home" class="nav-link active" data-target="home"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="#jobs" class="nav-link" data-target="jobs"><i class="fa-solid fa-briefcase"></i> Find Jobs</a>
+        <a href="#prep" class="nav-link" data-target="prep"><i class="fa-solid fa-book-open"></i> Job Prep</a>
+        <a href="#resume" class="nav-link" data-target="resume"><i class="fa-solid fa-file-lines"></i> Resume Tips</a>
+        <a href="#dashboard" class="nav-link" data-target="dashboard">
+          <i class="fa-solid fa-chart-pie"></i> Dashboard
+          <span class="badge" id="navBadge">0</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Notification Toast Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- Main Container / Views -->
+  <main class="main-content">
+
+    <!-- 1. HOME VIEW -->
+    <section id="view-home" class="view-section active">
+      <div class="hero-section">
+        <div class="hero-badge"><i class="fa-solid fa-bolt"></i> Kickstart Your Dream Career</div>
+        <h1 class="hero-title">Discover Opportunities, <br><span class="highlight">Ace Your Interviews</span></h1>
+        <p class="hero-subtitle">
+          A dedicated portal for students and early professionals to search verified jobs, practice interview questions, and build ATS-friendly resumes.
+        </p>
+
+        <!-- Search Bar -->
+        <div class="search-card">
+          <div class="search-input-group">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="homeSearchRole" placeholder="Job title, skills, or role (e.g. Frontend, Data Analyst)" />
+          </div>
+          <div class="search-input-group">
+            <i class="fa-solid fa-location-dot"></i>
+            <input type="text" id="homeSearchLoc" placeholder="Location or 'Remote'" />
+          </div>
+          <button class="btn btn-primary" id="homeSearchBtn">
+            <i class="fa-solid fa-search"></i> Find Jobs
+          </button>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="hero-stats">
+          <div class="stat-card">
+            <h3>500+</h3>
+            <p>Active Job Openings</p>
+          </div>
+          <div class="stat-card">
+            <h3>1,200+</h3>
+            <p>Curated Prep MCQs</p>
+          </div>
+          <div class="stat-card">
+            <h3>98%</h3>
+            <p>Placement Support Rate</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Categories / Features -->
+      <div class="section-container">
+        <div class="section-header">
+          <h2>Why Choose CareerLift?</h2>
+          <p>Everything you need to step from campus to career in one streamlined platform.</p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card" onclick="navigateTo('jobs')">
+            <div class="icon-box"><i class="fa-solid fa-building-user"></i></div>
+            <h3>Curated Job Board</h3>
+            <p>Explore beginner-friendly tech, design, and business roles with clear eligibility details.</p>
+            <span class="feature-link">Browse Jobs <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+          <div class="feature-card" onclick="navigateTo('prep')">
+            <div class="icon-box"><i class="fa-solid fa-laptop-code"></i></div>
+            <h3>Interactive Prep Hub</h3>
+            <p>Practice aptitude, technical quizzes, coding challenges, and HR interview answers.</p>
+            <span class="feature-link">Start Practice <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+          <div class="feature-card" onclick="navigateTo('resume')">
+            <div class="icon-box"><i class="fa-solid fa-file-shield"></i></div>
+            <h3>ATS Resume Guidance</h3>
+            <p>Gain actionable tips, actionable action-verbs, and copy-ready templates.</p>
+            <span class="feature-link">View Templates <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+          <div class="feature-card" onclick="navigateTo('dashboard')">
+            <div class="icon-box"><i class="fa-solid fa-chart-line"></i></div>
+            <h3>Track Progress</h3>
+            <p>Keep track of applied jobs, saved bookmarks, and track your practice quiz scores.</p>
+            <span class="feature-link">Go to Dashboard <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. FIND JOBS VIEW -->
+    <section id="view-jobs" class="view-section">
+      <div class="section-container">
+        <div class="section-header">
+          <h2>Find Your Next Job Opportunity</h2>
+          <p>Filter by role, location, or job type, and apply with a single click.</p>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="filter-bar">
+          <div class="search-input-group filter-input">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="jobFilterQuery" placeholder="Search by role or company..." oninput="renderJobs()" />
+          </div>
+          <div class="filter-select-group">
+            <select id="jobFilterType" onchange="renderJobs()">
+              <option value="All">All Types</option>
+              <option value="Full-Time">Full-Time</option>
+              <option value="Internship">Internship</option>
+              <option value="Remote">Remote</option>
+            </select>
+          </div>
+          <div class="filter-select-group">
+            <select id="jobFilterExp" onchange="renderJobs()">
+              <option value="All">All Experience</option>
+              <option value="Fresher">Entry Level / Fresher</option>
+              <option value="1-2 Years">1-2 Years</option>
+              <option value="2+ Years">2+ Years</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Job Listings -->
+        <div id="jobListings" class="job-grid">
+          <!-- Dynamic cards injected via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. JOB PREPARATION VIEW -->
+    <section id="view-prep" class="view-section">
+      <div class="section-container">
+        <div class="section-header">
+          <h2>Job Preparation Hub</h2>
+          <p>Test your knowledge with live quizzes, review coding problems, and practice HR questions.</p>
+        </div>
+
+        <!-- Prep Tabs -->
+        <div class="prep-tabs">
+          <button class="tab-btn active" data-tab="aptitude"><i class="fa-solid fa-calculator"></i> Aptitude MCQs</button>
+          <button class="tab-btn" data-tab="technical"><i class="fa-solid fa-code"></i> Technical MCQs</button>
+          <button class="tab-btn" data-tab="coding"><i class="fa-solid fa-terminal"></i> Coding Challenges</button>
+          <button class="tab-btn" data-tab="interview"><i class="fa-solid fa-comments"></i> Interview Q&A</button>
+        </div>
+
+        <!-- Tab 1: Aptitude -->
+        <div id="tab-aptitude" class="tab-content active">
+          <div class="quiz-summary-card">
+            <div>
+              <h3>Quantitative & Logical Aptitude</h3>
+              <p>Solve each question and verify your answers in real time.</p>
+            </div>
+            <button class="btn btn-outline-primary btn-sm" onclick="resetQuiz('aptitude')"><i class="fa-solid fa-rotate-right"></i> Reset</button>
+          </div>
+          <div id="aptitudeQuestions" class="quiz-list"></div>
+        </div>
+
+        <!-- Tab 2: Technical MCQs -->
+        <div id="tab-technical" class="tab-content">
+          <div class="quiz-summary-card">
+            <div>
+              <h3>Core CS & Web Development MCQs</h3>
+              <p>Test your fundamentals in Data Structures, OOPs, DBMS, and Web Tech.</p>
+            </div>
+            <button class="btn btn-outline-primary btn-sm" onclick="resetQuiz('technical')"><i class="fa-solid fa-rotate-right"></i> Reset</button>
+          </div>
+          <div id="technicalQuestions" class="quiz-list"></div>
+        </div>
+
+        <!-- Tab 3: Coding Questions -->
+        <div id="tab-coding" class="tab-content">
+          <div class="coding-list" id="codingQuestions"></div>
+        </div>
+
+        <!-- Tab 4: Interview Questions -->
+        <div id="tab-interview" class="tab-content">
+          <div class="interview-list" id="interviewQuestions"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. RESUME TIPS VIEW -->
+    <section id="view-resume" class="view-section">
+      <div class="section-container">
+        <div class="section-header">
+          <h2>Resume Building Guide & Templates</h2>
+          <p>Craft a recruiter-ready, ATS-friendly resume to secure interviews.</p>
+        </div>
+
+        <div class="resume-grid">
+          <!-- Guide Column -->
+          <div class="resume-guide">
+            <div class="guide-card">
+              <h3><i class="fa-solid fa-check-double text-primary"></i> 5 Golden Rules for Freshers</h3>
+              <ul class="check-list">
+                <li><strong>Stick to 1 Single Page:</strong> Recruiters spend ~6 seconds scanning resumes. Keep it concise.</li>
+                <li><strong>Quantify Results:</strong> Use the formula: <em>"Accomplished [X] as measured by [Y], by doing [Z]"</em>.</li>
+                <li><strong>Clear Section Order:</strong> Header & Contact &rarr; Education &rarr; Skills &rarr; Projects &rarr; Experience &rarr; Certifications.</li>
+                <li><strong>ATS Standard Fonts:</strong> Use clean sans-serif fonts (Arial, Calibri, Plus Jakarta Sans, Inter).</li>
+                <li><strong>Save as PDF:</strong> Always export and upload as PDF unless specified otherwise.</li>
+              </ul>
+            </div>
+
+            <div class="guide-card">
+              <h3><i class="fa-solid fa-lightbulb text-accent"></i> Impactful Action Verbs</h3>
+              <div class="tag-cloud">
+                <span class="tag">Developed</span>
+                <span class="tag">Engineered</span>
+                <span class="tag">Optimized</span>
+                <span class="tag">Automated</span>
+                <span class="tag">Architected</span>
+                <span class="tag">Streamlined</span>
+                <span class="tag"> Spearheaded</span>
+                <span class="tag">Integrated</span>
+                <span class="tag">Implemented</span>
+              </div>
+            </div>
+
+            <div class="guide-card">
+              <h3><i class="fa-solid fa-triangle-exclamation text-warning"></i> Common Mistakes to Avoid</h3>
+              <ul class="cross-list">
+                <li>Avoid unprofessional email addresses (e.g., coolcoder99@mail.com).</li>
+                <li>Do not add photo/headshots unless required in your country.</li>
+                <li>Avoid rating skills with percentage bars (e.g. "Java 90%").</li>
+                <li>Do not include physical home addresses or marital status.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Template Preview & Actions -->
+          <div class="resume-templates">
+            <div class="template-header">
+              <h3>Standard ATS Resume Template</h3>
+              <button class="btn btn-primary btn-sm" onclick="copyResumeTemplate()"><i class="fa-solid fa-copy"></i> Copy Markdown Template</button>
+            </div>
+            
+            <div class="template-preview" id="templateText">
+              <div class="resume-paper">
+                <div class="paper-header">
+                  <h2>ALEX CHEN</h2>
+                  <p>Bengaluru, India | +91 98765 43210 | alex.chen@example.com | linkedin.com/in/alexchen | github.com/alexchen</p>
+                </div>
+
+                <div class="paper-section">
+                  <h4>EDUCATION</h4>
+                  <div class="paper-item">
+                    <div class="item-head"><strong>B.Tech in Computer Science & Engineering</strong> <span>2022 – 2026</span></div>
+                    <div class="item-sub">Apex Institute of Technology, CGPA: 8.8/10.0</div>
+                  </div>
+                </div>
+
+                <div class="paper-section">
+                  <h4>TECHNICAL SKILLS</h4>
+                  <p><strong>Languages:</strong> JavaScript (ES6+), Python, Java, SQL, HTML5, CSS3</p>
+                  <p><strong>Frameworks & Tools:</strong> React.js, Node.js, Express, Git, GitHub, REST APIs</p>
+                  <p><strong>Core Concepts:</strong> Data Structures & Algorithms, Object-Oriented Programming, DBMS</p>
+                </div>
+
+                <div class="paper-section">
+                  <h4>PROJECTS</h4>
+                  <div class="paper-item">
+                    <div class="item-head"><strong>Campus Placement Portal</strong> <span>React, Node.js, SQLite</span></div>
+                    <ul>
+                      <li>Built a responsive recruitment management web app adopted by 350+ university students.</li>
+                      <li>Implemented JWT authentication and role-based dashboards, decreasing manual logging time by 40%.</li>
+                    </ul>
+                  </div>
+                  <div class="paper-item">
+                    <div class="item-head"><strong>Algorithm Visualizer</strong> <span>JavaScript, HTML5 Canvas</span></div>
+                    <ul>
+                      <li>Designed an interactive tool demonstrating 6 sorting and pathfinding algorithms with 1.2k+ views.</li>
+                      <li>Optimized render loop to maintain 60 FPS across mobile and desktop browsers.</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="paper-section">
+                  <h4>CERTIFICATIONS & ACHIEVEMENTS</h4>
+                  <ul>
+                    <li>Solved 250+ algorithmic challenges on LeetCode / HackerRank.</li>
+                    <li>Winner, Inter-College Web Development Hackathon 2024.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. DASHBOARD VIEW -->
+    <section id="view-dashboard" class="view-section">
+      <div class="section-container">
+        <div class="section-header">
+          <h2>Student Activity Dashboard</h2>
+          <p>Monitor your job applications, saved listings, and preparation statistics.</p>
+        </div>
+
+        <!-- Metrics Overview -->
+        <div class="dashboard-metrics">
+          <div class="metric-card">
+            <div class="metric-icon bg-blue"><i class="fa-solid fa-paper-plane"></i></div>
+            <div class="metric-info">
+              <span class="metric-value" id="dashAppliedCount">0</span>
+              <span class="metric-label">Jobs Applied</span>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon bg-indigo"><i class="fa-solid fa-bookmark"></i></div>
+            <div class="metric-info">
+              <span class="metric-value" id="dashSavedCount">0</span>
+              <span class="metric-label">Saved Jobs</span>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon bg-green"><i class="fa-solid fa-circle-check"></i></div>
+            <div class="metric-info">
+              <span class="metric-value" id="dashQuizScore">0 / 8</span>
+              <span class="metric-label">Prep Score</span>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon bg-amber"><i class="fa-solid fa-trophy"></i></div>
+            <div class="metric-info">
+              <span class="metric-value" id="dashPrepPercent">0%</span>
+              <span class="metric-label">Prep Completion</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dashboard Content Grid -->
+        <div class="dash-grid">
+          <!-- Applied Jobs Table -->
+          <div class="dash-card">
+            <div class="card-header">
+              <h3><i class="fa-solid fa-briefcase"></i> Applied Applications</h3>
+              <button class="btn btn-sm btn-outline-danger" onclick="clearAppliedJobs()">Clear History</button>
+            </div>
+            <div id="appliedJobsList" class="table-responsive">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- Saved Jobs -->
+          <div class="dash-card">
+            <div class="card-header">
+              <h3><i class="fa-solid fa-bookmark"></i> Bookmarked Jobs</h3>
+              <button class="btn btn-sm btn-outline-secondary" onclick="navigateTo('jobs')">Explore More</button>
+            </div>
+            <div id="savedJobsList" class="saved-list">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Learning Progress Bar -->
+        <div class="dash-card mt-4">
+          <div class="card-header">
+            <h3><i class="fa-solid fa-bars-progress"></i> Readiness Progress</h3>
+            <span class="badge" id="prepStatusBadge">Beginner</span>
+          </div>
+          <div class="progress-container">
+            <div class="progress-bar" id="progressBar" style="width: 0%;"></div>
+          </div>
+          <p class="progress-note" id="progressNote">Complete aptitude and technical quizzes to level up your career readiness badge.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Application Modal -->
+  <div id="applyModal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modalJobTitle">Apply for Position</h3>
+        <button class="modal-close" onclick="closeApplyModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form id="applyForm" onsubmit="submitApplication(event)">
+        <input type="hidden" id="modalJobId" />
+        <div class="form-group">
+          <label for="applicantName">Full Name *</label>
+          <input type="text" id="applicantName" required placeholder="e.g. John Doe" />
+        </div>
+        <div class="form-group">
+          <label for="applicantEmail">Email Address *</label>
+          <input type="email" id="applicantEmail" required placeholder="e.g. john@example.com" />
+        </div>
+        <div class="form-group">
+          <label for="applicantPhone">Phone Number *</label>
+          <input type="tel" id="applicantPhone" required placeholder="e.g. +91 9876543210" />
+        </div>
+        <div class="form-group">
+          <label for="applicantResume">Resume Link / Portfolio *</label>
+          <input type="url" id="applicantResume" required placeholder="https://linkedin.com/in/... or drive link" />
+        </div>
+        <div class="form-group">
+          <label for="applicantCover">Brief Note / Cover Message</label>
+          <textarea id="applicantCover" rows="3" placeholder="Why are you a great fit for this position?"></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeApplyModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Submit Application</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-col">
+        <div class="logo">
+          <i class="fa-solid fa-graduation-cap"></i>
+          <span>Career<strong>Lift</strong></span>
+        </div>
+        <p>Your comprehensive student companion for landing your dream job and excelling in technical interviews.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#home" onclick="navigateTo('home')">Home</a></li>
+          <li><a href="#jobs" onclick="navigateTo('jobs')">Job Openings</a></li>
+          <li><a href="#prep" onclick="navigateTo('prep')">Practice Hub</a></li>
+          <li><a href="#resume" onclick="navigateTo('resume')">Resume Guides</a></li>
+          <li><a href="#dashboard" onclick="navigateTo('dashboard')">Student Dashboard</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Categories</h4>
+        <ul>
+          <li>Software Engineering</li>
+          <li>Data Analytics & AI</li>
+          <li>Product & UI/UX Design</li>
+          <li>Quantitative Aptitude</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Get in Touch</h4>
+        <p><i class="fa-solid fa-envelope"></i> support@careerlift.dev</p>
+        <p><i class="fa-solid fa-clock"></i> 24/7 Placement Support</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 CareerLift Job Portal & Prep Hub. Built for Students and Job Seekers.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
